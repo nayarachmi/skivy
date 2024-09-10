@@ -29,17 +29,17 @@ Link PWS: http://naya-kusumahayati-skivy.pbp.cs.ui.ac.id/
 
 >> bagan request client ke web
 
->> fungsi git dalam pengembangan perangkat lunak
+> fungsi git dalam pengembangan perangkat lunak
 1. git memudahkan pengguna melacak perubahan kode yang sudah terjadi, pengguna dapat dengan mudah kembali ke versi kode sebelumnya jika dibutuhkan
 2. git memungkinkan banyak pengguna bekerja pada satu proyek yang sama
 3. git memudahkan backup kode karena kode disimpan di server remote
 4. git memungkinkan pengguna membuat alur pengembangan yang terpisah tanpa mengganggu kode di cabang utama
 
->> alasan mengapa framework django dijadikan permulaan pembelajaran
+> alasan mengapa framework django dijadikan permulaan pembelajaran
 1. banyak fitur yang sudah disediakan diawal sehingga pengguna tidak perlu melakukan banyak konfigurasi tambahan (pemula friendly)
 2. struktur projek jelas dan terorganisir
 3. komunitas yang dimiliki besar dan aktif sehingga banyak dukungan yang dapat membantu jika menemukan masalah
 
->> mengapa model pada django disebut sebagai ORM (object relational mapping)
+> mengapa model pada django disebut sebagai ORM (object relational mapping)
 1. karena fungsinya untuk memetakan objek di aplikasi ke tabel dalam database
 2. dalam django setiap model python merepresentasikan tabel di database dan tiap atribut dalam model merepresentasikan kolom di tabel

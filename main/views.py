@@ -1,13 +1,19 @@
 from django.shortcuts import render
+from .models import Product # type: ignore
 
 def show_main(request):
     context = {
-        'price' : '100.000',
-        'name': 'Hatomugi Toner',
-        'description': 'A Hydrating Toner',
-        'skin_type': 'All Skin Type'
+        'npm': '2306230685',
+        'name': 'Naya Kusumahayati Rachmi',
+        'class': 'PBP B',
+        'store_name': 'Skivy',
     }
 
     return render(request, "main.html", context)
 
-# Create your views here.
+def product_list(request):
+    products = Product.objects.all()
+    context = {
+        'products': products,
+    }
+    return render(request, 'main.html', context)
