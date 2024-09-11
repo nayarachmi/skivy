@@ -33,7 +33,7 @@ Untuk membuat model `Product` dalam aplikasi Django, pertama-tama buka file `mod
 ```python
 from django.db import models
 
-class ProductEntry(models.Model):
+class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     price = models.IntegerField()
@@ -51,20 +51,28 @@ Untuk menambahkan fungsi pada file `views.py`, Saya melakukan beberapa langkah. 
 
 ```python
 from django.shortcuts import render
+from .models import Product # type: ignore
 
 def show_main(request):
     context = {
-        'price': '100.000',
-        'name': 'Hatomugi Toner',
-        'description': 'A Hydrating Toner',
-        'skin_type': 'All Skin Type'
+        'npm': '2306230685',
+        'name': 'Naya Kusumahayati Rachmi',
+        'class': 'PBP B',
+        'store_name': 'Skivy',
     }
 
     return render(request, "main.html", context)
 
+def product_list(request):
+    products = Product.objects.all()
+    context = {
+        'products': products,
+    }
+    return render(request, 'main.html', context)
+
 ```
 
-Fungsi `show_main` tersebut sudah disiapkan untuk mengirimkan data ke template `main.html`. Data yang dikirimkan termasuk `price`, `name`, `description`, dan `skin_type`. Fungsi ini mengatur konteks yang berisi informasi produk dan menggunakan fungsi `render` untuk merender template `main.html` dengan konteks tersebut.
+Fungsi `show_main` tersebut sudah disiapkan untuk mengirimkan data ke template `main.html`. Data yang dikirimkan termasuk `npm`, `name`, `class`, dan `store_name`. Fungsi ini mengatur konteks yang berisi informasi utama web dan menggunakan fungsi `render` untuk merender template `main.html` dengan konteks tersebut.
 
 ### Membuat Routing pada URLs.py di Main
 Untuk mengatur routing di aplikasi Django, Saya membuat file `urls.py` di dalam folder aplikasi `main`. Berikut adalah langkah-langkahnya:
@@ -126,9 +134,17 @@ Untuk mengatur routing di aplikasi Django, Saya membuat file `urls.py` di dalam 
 ![image](https://github.com/user-attachments/assets/9d1333f3-1884-4e9b-beb0-a82ffe8eb679)
 1. User/Client mengirimkan permintaan ke server melalui URL
 2. urls.py digunakan untuk menentukan view mana yang harus menangani permintaan tersebut
-3. View menjalankan logika yang diperlukan sepertiberinteraksi dengan models.py untuk mengambil data dari database
+3. View menjalankan logika yang diperlukan seperti berinteraksi dengan models.py untuk mengambil data dari database
 4. View merender template HTML dengan data yang diperoleh dan menyiapkan respon
 5. Template kemudian dikirimkan kembali sebagai respon HTML yang ditampilkan di browser sebagai website
+> Kaitan antara `urls.py`,`views.py`,`models.py`,`html`
+>> `urls.py`: Menentukan rute URL dan mengarahkan permintaan pengguna ke view yang sesuai
+>> 
+>> `views.py`: Mengandung logika aplikasi. Menerima permintaan dari urls.py, memproses data, dan berinteraksi dengan model (models.py)
+>> 
+>> `models.py`: Mendefinisikan struktur data dan berinteraksi dengan database. Digunakan oleh view untuk mengambil atau mengubah data
+>> 
+>> `html`: Merender data dari view menjadi halaman HTML yang siap dikirim ke pengguna
 
 ## Fungsi Git dalam Pengembangan Perangkat Lunak
 1. Git memudahkan pengguna melacak perubahan kode yang sudah terjadi; pengguna dapat dengan mudah kembali ke versi kode sebelumnya jika dibutuhkan.
