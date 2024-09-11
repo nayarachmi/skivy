@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.utils import timezone
-from .models import ProductEntry
+from .models import Product
 
 class mainTest(TestCase):
     def test_main_url_is_exist(self):
@@ -16,23 +16,23 @@ class mainTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_recommended_for_sensitive_skin(self):
-        # Create a product entry for testing
-        product = ProductEntry.objects.create(
+        # Membuat entri produk untuk pengujian
+        product = Product.objects.create(
             name="Sensitive Skin Cream",
             description="A soothing cream for sensitive skin.",
             price=20000,
             skin_type="sensitive, dry"
         )
-        # Test the property is_recommended_for_sensitive_skin
+        # Pengujian properti is_recommended_for_sensitive_skin
         self.assertTrue(product.is_recommended_for_sensitive_skin)
 
     def test_not_recommended_for_sensitive_skin(self):
-        # Create a product entry not recommended for sensitive skin
-        product = ProductEntry.objects.create(
+        # Membuat entri produk yang tidak direkomendasikan untuk kulit sensitif
+        product = Product.objects.create(
             name="Oily Skin Gel",
             description="A gel for oily skin types.",
             price=15000,
             skin_type="oily, combination"
         )
-        # Test the property is_recommended_for_sensitive_skin
+        # Pengujian properti is_recommended_for_sensitive_skin
         self.assertFalse(product.is_recommended_for_sensitive_skin)

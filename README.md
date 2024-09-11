@@ -25,22 +25,6 @@ urlpatterns = [
 ]
 ```
 
-<<<<<<< HEAD
-> fungsi git dalam pengembangan perangkat lunak
-1. git memudahkan pengguna melacak perubahan kode yang sudah terjadi, pengguna dapat dengan mudah kembali ke versi kode sebelumnya jika dibutuhkan
-2. git memungkinkan banyak pengguna bekerja pada satu proyek yang sama
-3. git memudahkan backup kode karena kode disimpan di server remote
-4. git memungkinkan pengguna membuat alur pengembangan yang terpisah tanpa mengganggu kode di cabang utama
-
-> alasan mengapa framework django dijadikan permulaan pembelajaran
-1. banyak fitur yang sudah disediakan diawal sehingga pengguna tidak perlu melakukan banyak konfigurasi tambahan (pemula friendly)
-2. struktur projek jelas dan terorganisir
-3. komunitas yang dimiliki besar dan aktif sehingga banyak dukungan yang dapat membantu jika menemukan masalah
-
-> mengapa model pada django disebut sebagai ORM (object relational mapping)
-1. karena fungsinya untuk memetakan objek di aplikasi ke tabel dalam database
-2. dalam django setiap model python merepresentasikan tabel di database dan tiap atribut dalam model merepresentasikan kolom di tabel
-=======
 Dengan menambahkan `include('main.urls')`, saya mengarahkan Django untuk mencari pola URL tambahan di dalam file `urls.py` aplikasi `main`. Langkah ini memastikan bahwa permintaan yang diterima oleh server akan diarahkan ke aplikasi yang tepat berdasarkan URL yang diminta, memungkinkan setiap aplikasi dalam proyek untuk mengatur rute mereka secara mandiri.
 
 ### Membuat Model Product dalam Main
@@ -160,4 +144,3 @@ Untuk mengatur routing di aplikasi Django, Saya membuat file `urls.py` di dalam 
 ## Mengapa Model pada Django Disebut sebagai ORM (Object Relational Mapping)
 1. Karena fungsinya untuk memetakan objek di aplikasi ke tabel dalam database.
 2. Dalam Django, setiap model Python merepresentasikan tabel di database dan tiap atribut dalam model merepresentasikan kolom di tabel.
->>>>>>> 828c2df2de2c88159f6f8ed944931f0de38ba4bf
