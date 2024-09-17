@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render
 from .models import Product # type: ignore
+from django.http import HttpResponse
+from django.core import serializers
 
 def show_main(request):
     product_entries = Product.objects.all()
@@ -30,3 +32,10 @@ def create_product_entry(request):
 
     context = {'form': form}
     return render(request, "create_product_entry.html", context)
+
+def show_xml(request):
+    data = Product.objects.all()
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+
+
