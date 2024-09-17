@@ -1,10 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>Skivy</h1>
 
 <h5>NPM: </h5>
-<p>{{ npm }}</p> 
-<h5>Name: </h5>
-<p>{{ name }}</p> 
-<h5>Class: </h5>
+<p>{{ npm }}<p>
+
+<h5>Name:</h5>
+<p>{{ name }}</p>
+
+<h5>Class:</h5>
 <p>{{ class }}</p>
-<h5>Store Name: </h5>
-<p>{{ store_name }}</p>
+
+...
+{% if not mood_entries %}
+<p>Belum ada data product pada website.</p>
+{% else %}
+<table>
+  <tr>
+    <th>Product Name</th>
+    <th>Description</th>
+    <th>Skin Type</th>
+    <th>Price</th>
+  </tr>
+
+  {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini 
+  {% endcomment %} 
+  {% for mood_entry in mood_entries %}
+  <tr>
+    <td>{{product_entry.name}}</td>
+    <td>{{product_entry.description}}</td>
+    <td>{{product_entry.skin_type}}</td>
+    <td>{{product_entry.price}}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<br />
+
+<a href="{% url 'main:create_product_entry' %}">
+  <button>Add New Product Entry</button>
+</a>
+{% endblock content %}
