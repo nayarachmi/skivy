@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render
+
+from main.forms import ProductEntryForm
 from .models import Product # type: ignore
 from django.http import HttpResponse
 from django.core import serializers
@@ -24,7 +26,7 @@ def product_list(request):
     return render(request, 'main.html', context)
 
 def create_product_entry(request):
-    form = ProductForm(request.POST or None)
+    form = ProductEntryForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
         form.save()
