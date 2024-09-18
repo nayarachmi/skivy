@@ -202,5 +202,13 @@ Method `is_valid()` dalam form Django digunakan untuk memeriksa apakah data yang
 CSRF (Cross-Site Request Forgery) adalah jenis serangan di mana penyerang mencoba membuat pengguna yang sudah login melakukan aksi yang tidak diinginkan tanpa sepengetahuan mereka. Token CSRF adalah mekanisme keamanan yang ditambahkan Django untuk memastikan bahwa form yang dikirim berasal dari sumber yang sah, yakni dari aplikasi itu sendiri, bukan dari sumber eksternal yang berbahaya. Jika kita tidak menambahkan `csrf_token` pada form Django, aplikasi menjadi rentan terhadap serangan CSRF. Dengan menggunakan `csrf_token`, kita melindungi aplikasi dari serangan ini, karena setiap form yang sah akan menyertakan token unik yang harus cocok dengan token yang dihasilkan oleh server.
 
 ## Tampilan Postman
+### XML
 ![image](https://github.com/user-attachments/assets/b0625deb-a850-4bc1-a5a5-a0667233520b)
+### XML by ID
+![image](https://github.com/user-attachments/assets/bf15623d-9c92-4e05-a112-47ede394acd1)
+### JSON
 ![image](https://github.com/user-attachments/assets/294064a7-3192-4acd-9af6-878d3b9f08dc)
+### JSON by ID
+![image](https://github.com/user-attachments/assets/7f843c3c-d901-4cc0-9869-35f27946536c)
+
+
