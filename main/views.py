@@ -17,10 +17,10 @@ from django.urls import reverse
 
 @login_required(login_url='/login')
 def show_main(request):
-    product_entries = Product.objects.all()
+    product_entries = Product.objects.filter(user=request.user)
     context = {
         'npm': '2306230685',
-        'name': 'Naya Kusumahayati Rachmi',
+        'name': request.user.username,
         'class': 'PBP B',
         'store_name': 'Skivy',
         'product_entries': product_entries,
@@ -40,9 +40,11 @@ def create_product_entry(request):
     form = ProductEntryForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
-        form.save()
+        product_entry = form.save(commit=False)
+        product_entry.user = request.user
+        product_entry.save()
         return redirect('main:show_main')
-
+    
     context = {'form': form}
     return render(request, "create_product_entry.html", context)
 

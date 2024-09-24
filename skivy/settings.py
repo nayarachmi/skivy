@@ -1,3 +1,5 @@
+import os
+
 """
 Django settings for skivy project.
 
@@ -23,7 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*n6jz*p4qvjmx8ss*#(bb)9z@#!4w+a@+pxggqg)yxod3leg-5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+PRODUCTION = os.getenv("PRODUCTION", False)
+DEBUG = not PRODUCTION
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "naya-kusumahayati-skivy.pbp.cs.ui.ac.id"]
 
