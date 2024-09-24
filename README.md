@@ -211,4 +211,168 @@ CSRF (Cross-Site Request Forgery) adalah jenis serangan di mana penyerang mencob
 ### JSON by ID
 ![image](https://github.com/user-attachments/assets/7f843c3c-d901-4cc0-9869-35f27946536c)
 
+## Perbedaan antara `HttpResponseRedirect()` dan `redirect()`
+`HttpResponseRedirect()` : Fungsi bawaan Django yang memberitahu browser untuk melakukan redirect ke URL yang diberikan
+`redirect()` : Shortcut yang lebih ringkas dan fleksibel. Selain URL, fungsi ini juga dapat menerima nama URL pattern atau model object
 
+Kesimpulannya, `redirect()` lebih fleksibel karena dapat menerima nama URL, objek, maupun URL string langsung, sedangkan `HttpResponseRedirect()` hanya bisa menerima URL string.
+
+## Cara Kerja Penghubungan Model `Product` dengan `User`
+Untuk menghubungkan model `Product` dengan model `User` di Django, biasanya digunakan relasi ForeignKey. Misalkan, jika produk dimiliki oleh pengguna, kita bisa membuat hubungan one-to-many antara User dan Product. Contoh implementasinya adalah sebagai berikut:
+
+```python
+class Product(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    price = models.IntegerField()
+    skin_type = models.CharField(max_length=20)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+```
+
+Field `user` pada model tersebut menggunakan ForeignKey, yang menunjukan bahwa setiap profuk dimiliki oleh satu pengguna, tetapi seorang penggunda dapat memiliki banyak produk.
+
+## Perbedaan antara Authentication dan Authorization
+- Authentication: Proses yang memverifikasi identitas pengguna, misalnya dengan username dan password. Jika berhasil, pengguna akan dianggap sebagai pengguna yang sah. Dilakukan menggunakan fungsi seperti `authenticate()` untuk memverifikasi kredensial pengguna, dan `login()` untuk membuat sesi pengguna yang telah terautentikasi
+- Authorization: Proses menentukan hak akses pengguna yang telah terautentikasi. Setelah berhasil login, Django akan menentukan apakah pengguna memiliki izin untuk melakukan aktivitas atau mengakses sumber tertentu. Dilakukan dengan mengecek apakah pengguna memiliki izin tertentu melalui mekanisme permissions atau groups di Django. Django juga memiliki decorators seperti `@login_required`
+
+## Bagaimana Django Mengingat Pengguna yang Telah Login? Kegunaan Lain dari Cookies dan Apakah Semua Cookies Aman Digunakan?
+Django mengingat pengguna yang telah login melalui mekanisme session. Saat pengguna berhasil login, Django akan membuat entri sesi di server (biasanya disimpan dalam database) dan mengirimkan cookie sesi ke browser pengguna. Cookie ini berisi ID sesi, yang nantinya akan digunakan oleh Django untuk mengidentifikasi pengguna di setiap request berikutnya.
+
+Setiap kali pengguna melakukan request, browser mengirimkan cookie ini, dan Django memeriksa ID sesi untuk mendapatkan detail pengguna yang terkait.
+
+## Kegunaan Lain dari Cookies
+- Iklan dan analitik: Untuk melacak aktivitas pengguna di situs atau bahkan lintas situs
+- Pelacakan preferensi: Misalnya, untuk menyimpan preferensi tampilan atau pengaturan situs pengguna
+- Pelacakan sesi pengguna: Seperti untuk mengingat item yang ditambahkan ke keranjang belanja dalam aplikasi e-commerce
+
+## Keamanan Cookies
+Tidak semua cookie aman, ada beberapa faktor yang mempengaruhi keamanan cookies:
+- HttpOnly flag: Cookies dengan HttpOnly flag tidak dapat diakses oleh JavaScript, sehingga mengurangi risiko serangan XSS (Cross-Site Scripting)
+- Sesi Expiry: Cookies harus memiliki waktu kedaluwarsa yang wajar untuk menghindari penggunaan yang terlalu lama
+- Cookie harus dienkripsi: Cookie yang berisi informasi sensitif seperti sesi pengguna harus dienkripsi untuk mencegah pencurian data
+- Secure flag: Cookies harus dikirim melalui koneksi HTTPS dengan menggunakan `Secure` flag
+
+## Mengimplementasikan Fungsi Registrasi, Login, dan Logout
+Pertama, saya menambahkan fungsi Register pada file `views.py`, fungsi tersebut berfungsi untuk menghasilkan form registrasi secara otomatis dan membuat akun pengguna ketika data di submit dari form.
+
+```python
+def register(request):
+    form = UserCreationForm()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been successfully created!')
+            return redirect('main:login')
+    context = {'form':form}
+    return render(request, 'register.html', context)
+```
+
+Lalu membuat berkas HTML baru dengan nama `register.html`. Tidak lupa untuk mengimpor fungsi register yang sudah dibuat tadi pada file `urls.py` dan menambahkan path url ke dalam `urlpatterns` untuk mengakses fungsi yang sudah diimpor
+
+Berikutnya, untuk membuat fungsi Login, pertama saya mengimpor `authenticate`, `login`,dan `AuthenticationForm` pada file `views.py`. Lalu pada file yang sama menambahkan fungsi `login_user`.
+
+```python
+def login_user(request):
+   if request.method == 'POST':
+      form = AuthenticationForm(data=request.POST)
+
+      if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('main:show_main')
+
+   else:
+      form = AuthenticationForm(request)
+   context = {'form': form}
+   return render(request, 'login.html', context)
+```
+
+Setelahnya saya membuat berkas HTML baru dengan nama `login.html`. Tidak lupa untuk mengimpor fungsi login_user yang sudah dibuat tadi pada file `urls.py` dan menambahkan path url ke dalam `urlpatterns` untuk mengakses fungsi yang sudah diimpor
+
+Terakhir, untuk membuat fungsi logout yang saya lakukan kurang lebih sama dengan sebelumnya, pertama saya mengimpor `logout` pada file `views.py`, lalu saya menambahkan fungsi `logout_user()` ke dalam file yang sama
+
+```python
+def logout_user(request):
+    logout(request)
+    return redirect('main:login')
+```
+Lalu saya menambahkan potongan kode berikut pada file `main.html`
+```HTML
+<a href="{% url 'main:logout' %}">
+  <button>Logout</button>
+</a>
+```
+Tidak lupa untuk mengimpor fungsi logout_user yang sudah dibuat tadi pada file `urls.py` dan menambahkan path url ke dalam `urlpatterns` untuk mengakses fungsi yang sudah diimpor
+
+## Membuat 2 Akun Pengguna dengan 3 Dummy Data
+Saya menjalankan program terlebih dahulu dengan perintah
+```python
+python manage.py runserver
+```
+Setelah itu melakukan registrasi untuk membuat akun, Setelah registrasi selesai, saya login menggunakan akun tersebut dan melakukan aksi menambahkan product entry dengan menekan tombol `Add New Product Entry` setelah itu memasukkan data produk dan menekan tombol `Add Product Entry`. Melakukan hal yang sama sampai berhasil membuat 3 dummy data di masing-masing akun
+
+## Menghubungkan Model `Product` dengan `User`
+Pertama saya mengimpor model pada file `models.py`
+```python
+from django.contrib.auth.models import User
+```
+lalu pada model `Product` yang sudah ada pada file tersebut, menambahkan user 
+```python
+class Product(models.Model):
+    ...
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ...
+```
+Setelah itu saya mengubah potongan kode pada fungsi `create_product_entry` pada file `views.py` dan mengubah value dari `product_entries` dan `context` pada `show_main` menjadi seperti berikut
+```python
+def show_main(request):
+    product_entries = Product.objects.filter(user=request.user)
+
+    context = {
+         'name': request.user.username,
+         ...
+    }
+...
+```
+Hal tersebut berfungsi untuk menampilkan objek `product_entries` sesuai dengan yang terasosiasi atau terhubung dengan user yang sedang login. Terakhir, tidak lupa untuk melakukan migrasi model dengan perintah
+```python
+manage.py makemigrations
+manage.py migrate
+```
+
+## Menampilkan Detail Informasi User yang sedang Logged In seperti username dan menerapkan cookies seperti last login pada halaman utama aplikasi
+Untuk menampilkan detail informasi user yang sedang login, hal pertama yang saya lakukan ialah mengimpor `HttpResponseRedirect`, `reverse`, dan `datetime` pada file `views.py`. Lalu pada fungsi `login_user` tambahkan cookie dengan nama `last_login` untuk menampilkan kapan terakhir kali user melakukan login dengan cara mengubah kode pada bagian `if form.is_valid()` menjadi berikut
+```python
+...
+if form.is_valid():
+    user = form.get_user()
+    login(request, user)
+    response = HttpResponseRedirect(reverse("main:show_main"))
+    response.set_cookie('last_login', str(datetime.datetime.now()))
+    return response
+...
+```
+Lalu berikutnya pada fungsi `show_main` menambahkan potongan kode `last_login`
+```python
+context = {
+    ...
+    'last_login': request.COOKIES['last_login'],
+}
+```
+Setelah itu mengubah fungsi `logout_user` untuk menghapus cookie `last_login` saat pengguna melakukan logout
+```python
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login')
+    return response
+```
+Selanjutnya menambahkan kode HTML untuk menampilkan keterangan terakhir login milik user pada file `main.html`
+```python
+...
+<h5>Sesi terakhir login: {{ last_login }}</h5>
+...
+```
