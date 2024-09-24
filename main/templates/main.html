@@ -11,7 +11,7 @@
 <h5>Class:</h5>
 <p>{{ class }}</p>
 
-{% if not mood_entries %}
+{% if not product_entries %}
 <p>Belum ada data product pada website.</p>
 {% else %}
 <table>
@@ -21,8 +21,8 @@
     <th>Skin Type</th>
     <th>Price</th>
   </tr>
-=
-  {% for mood_entry in mood_entries %}
+
+  {% for product_entry in product_entries %}
   <tr>
     <td>{{product_entry.name}}</td>
     <td>{{product_entry.description}}</td>
