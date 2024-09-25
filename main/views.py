@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 
 from main.forms import ProductEntryForm
 from .models import Product # type: ignore
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -95,3 +94,26 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('main:login')
+
+def edit_product(request, id):
+    # Get Product Entry berdasarkan id
+    product = Product.objects.get(pk = id)
+
+    # Set mood entry sebagai instance dari form
+    form = ProductEntryForm(request.POST or None, instance=product) #hmmmm
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+
+def delete_product(request, id):
+    # Get product berdasarkan id
+    product = Product.objects.get(pk = id)
+    # Hapus product
+    product.delete()
+    # Kembali ke halaman awal
+    return HttpResponseRedirect(reverse('main:show_main'))
