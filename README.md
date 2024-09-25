@@ -376,3 +376,79 @@ Selanjutnya menambahkan kode HTML untuk menampilkan keterangan terakhir login mi
 <h5>Sesi terakhir login: {{ last_login }}</h5>
 ...
 ```
+## Urutan Prioritas CSS Selector
+1. **Inline Styles:** Gaya yang diterapkan langsung pada elemen HTML dengan atribut `style`
+``` HTML
+<div style="color: black;">Hello, Everyone!</div>
+```
+2. **ID Selector:** Selector yang menggunakan ID, diawali dengan `#`
+``` CSS
+#myId {
+    color: black;
+}
+```
+3. **Class Selector, Attribute Selector, Pseudo-class:** Selector ini diawali dengan `.`(class), `[attribute]`, atau menggunakan pseudo-class
+``` CSS
+.myClass {
+    color: black;
+}
+```
+4. **Element Selector & Pseudo-element:** Selector yang langsung menargetkan elemen HTML dan pseudo-element
+``` CSS
+div {
+    color: black;
+}
+``` 
+5. **Universal Selector:** elector yang menargetkan semua elemen, ditulis dengan `*`
+``` CSS
+* {
+    color: black;
+}
+```
+
+## Pentingnya Responsive Design
+Responsive design adalah pendekatan dalam pengembangan web yang bertujuan untuk membuat situs web terlihat baik dan berfungsi dengan baik di berbagai perangkat, baik desktop maupun mobile. Ini penting karena:
+1. Pengalaman Pengguna: Membuat situs web yang mudah digunakan di berbagai perangkat meningkatkan pengalaman pengguna
+2. Search Engine Optimiziation: Google lebih menyukai situs web yang responsif dalam hasil pencariannya
+3. Aksesibilitas: Memastikan konten dapat diakses oleh lebih banyak pengguna di berbagai perangkat
+
+### Contoh Aplikasi
+- Yang sudah menerapkan Responsive Design: Google, Twitter (X), Instagram
+- Yang belum menerapkan Responsive Design: Blog tua yang tidak menggunakan framework modern, dan beberapa situs web pemerintah daerah yang tidak dioptimalkan untuk perangkat mobile
+
+## Perbedaan antara Margin, Border, dan Padding
+- **Margin:** Ruang diluar elemen atau jarak antara elemen tersebut dan elemen lain di sekitarnya. Dapat diatur dengan menggunakan properti `margin`
+``` CSS
+.myElement {
+    margin: 20px; /* Jarak luar 20px */
+}
+```
+- **Border:** Garis yang mengelilingi elemen. Dapat diatur dengan menggunakan properti `border`
+``` CSS
+.myElement {
+    border: 2px solid black; /* Border 2px, solid, berwarna hitam */
+}
+```
+- **Padding:** Ruang di dalam elemen, antara konten dan border. Dapat diatur dengan menggunakan properti `padding`
+``` CSS
+.myElement {
+    padding: 10px; /* Ruang dalam 10px */
+}
+```
+
+## Konsep Flexbox dan Grid Layout
+- **Flexbox:** Flexible Box Layout adalah model layout yang dirancang untuk mengatur elemen dalam satu dimensi (baris atau kolom). Ini memungkinkan elemen untuk dapat tumbuh, menyusut, dan beradaptasi dengan ruang yang tersedia. Sangat cocok untuk tata letak yang responsif, seperti menu navigasi dan form
+``` CSS
+.container {
+    display: flex;
+    justify-content: space-between; /* Mengatur jarak antar elemen */
+}
+```
+
+- **Grid Layout:** Grid layout adalah model layout yang memungkinkan pengaturan elemen dalam dua dimensi (baris dan kolom). Ini memungkinkan pembagian ruang yang lebih kompleks dan terstruktur. Cocok untuk tata letak yang lebih kompleks, seperti layout halaman penuh dengan banyak elemen
+``` CSS
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Membagi grid menjadi 3 kolom */
+}
+```
