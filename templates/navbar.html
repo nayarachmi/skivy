@@ -1,0 +1,63 @@
+{% load static %}  <!-- Pastikan untuk memuat static di awal file -->
+
+<nav class="bg-pink-600 shadow-lg fixed top-0 left-0 z-50 w-full">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <!-- Logo Image -->
+        <img src="{% static 'image/logo.png' %}" alt="Skivy Logo" class="h-12 w-auto">
+      </div>
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center space-x-4">
+        {% if user.is_authenticated %}
+          <span class="text-gray-100 text-sm">Welcome, <strong>{{ user.username }}</strong></span>
+          <a href="{% url 'main:logout' %}" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300">
+            Logout
+          </a>
+        {% else %}
+          <a href="{% url 'main:login' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300">
+            Login
+          </a>
+          <a href="{% url 'main:register' %}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300">
+            Register
+          </a>
+        {% endif %}
+      </div>
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button class="mobile-menu-button focus:outline-none">
+          <svg class="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div class="mobile-menu hidden md:hidden bg-pink-500 text-center py-4 px-6">
+    <div class="space-y-3">
+      {% if user.is_authenticated %}
+        <span class="block text-gray-100">Welcome, <strong>{{ user.username }}</strong></span>
+        <a href="{% url 'main:logout' %}" class="block bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-full transition duration-300">
+          Logout
+        </a>
+      {% else %}
+        <a href="{% url 'main:login' %}" class="block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-full transition duration-300">
+          Login
+        </a>
+        <a href="{% url 'main:register' %}" class="block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-full transition duration-300">
+          Register
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    const btn = document.querySelector("button.mobile-menu-button");
+    const menu = document.querySelector(".mobile-menu");
+
+    btn.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+  </script>
+</nav>
