@@ -535,3 +535,113 @@ Tidak lupa untuk mengimport fungsi tersebut dan menambahkan path URL pada file `
 ```
 ## Kustomisasi Halaman Login, Register, dan Tambah Product
 ### Login
+Pada halaman Login saya menempatkan semuanya di tengah halaman dengan elemen utama sebuah div di tengah layar dan logo diatasnya. Menggunakan desain yang bersih dan modern dengan background `pink-100` dan form login berwarna putih. Pada tombol `Sign In` menggunakan kelas tailwind CSS dengan efek hover. Kode lengkapnya dapat dilihat pada file `login.html`
+> Tampilan Login Page
+![image](https://github.com/user-attachments/assets/002881b8-c285-49dd-902f-db923ce08ac0)
+
+### Register
+Menggunakan div utama dengan kelas `min-h-screen` untuk memposisikan form di tengah layar. Elemen form dibungkus dalam sebuah div lalu memberikan efek shadow dan border berwarna pink serta radius yang membuat sudutnya melengkung. Tombol `Submit` juga diberikan efek agar ketika hover warna berubah. Kode lengkapnya dapat dilihat pada file `register.html`
+> Tampilan Register Page
+![image](https://github.com/user-attachments/assets/51fbc946-76ac-4bed-ac87-f7ea7d1a37ca)
+
+### Tambah Product
+Menyertakan template navigation bar `navbar.html` pada bagian atas. Tema halaman menyesuaikan dengan tema tema sebelumnya, dengan desain dan efek yang kurang lebih sama. Tombol pun menggunakan efek yang jika di hover berubah warna
+> Tampilan Page Add Product
+![image](https://github.com/user-attachments/assets/e89cd91c-d8fb-4124-b7bb-0fffc8780b91)
+
+## Kustomisasi Halaman Daftar Produk
+Menggunakan Tailwind CSS dengan layout yang responsif dan rapi menggunakan grid, dan shadow. Produk ditampilkan dalam grid yang rapi dan minimalis dan dalam bentuk card dengan tombol delete dan edit, namun jika belum ada product maka akan ditambilkan gif dengan ekspresi sedih dan keterangan bahwa belum ada produk
+> Tampilan Page Product
+![image](https://github.com/user-attachments/assets/448a91db-1de8-4df9-a4c4-2fe540dbe760)
+> Tampilan Page Product tanpa Product
+![image](https://github.com/user-attachments/assets/5dd28802-77ab-46ab-ae5a-590ddda4da76)
+
+## Kustomisasi Card Product
+Tampilan kartu produk yang berfungsi untuk menampilkan tiap keterangan pada produk yang dilengkapi dengan tombol hapus dan edit. Elemen pada div utama memiliki class yang mengatur layout dan efek seperti shadow, border, dan efek hover yang memperbesar kartu sedikit dengan transisi 300ms. Lalu saya juga memastikan kartu tidak pecah saat tampil dalam kolom dengan `break-inside-avoid`. Pada kartu produk menampilkan Nama produk yang ditampilkan dalam `<h3>`, deskripsi produk menggunakan `<p>` dan harga produk yang ditampilkan dengan warna berbeda. Lalu saya juga membuat tombol edit dan hapus menggunakan ikon dan warna yang cerah. Tombol hapus akan mengarahkan pengguna ke URL untuk menghapus produk, Tombol edit akan mengarahkan pengguna ke page lain untuk mengedit produk
+``` HTML
+<!-- Action Buttons (Edit, Delete) -->
+    <div class="flex justify-between items-center p-4 border-t border-gray-200">
+      <a href="{% url 'main:edit_product' product_entry.pk %}" class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-full p-2 transition duration-300 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+        </svg>
+      </a>
+      <a href="{% url 'main:delete_product' product_entry.pk %}" class="bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition duration-300 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+```
+
+## Navigation Bar
+Pertama, saya membuat berkas HTML baru yaitu `navbar.html` lalu saya mengisinya dengan kode untuk tampilan navigation bar yang saya inginkan dengan logo pada kiri atas dan greeting user serta tombol logout di kanan
+``` HTML
+{% load static %}  <!-- Pastikan untuk memuat static di awal file -->
+
+<nav class="bg-pink-600 shadow-lg fixed top-0 left-0 z-50 w-full">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <!-- Logo Image -->
+        <img src="{% static 'image/logo.png' %}" alt="Skivy Logo" class="h-12 w-auto">
+      </div>
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center space-x-4">
+        {% if user.is_authenticated %}
+          <span class="text-gray-100 text-sm">Welcome, <strong>{{ user.username }}</strong></span>
+          <a href="{% url 'main:logout' %}" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300">
+            Logout
+          </a>
+        {% else %}
+          <a href="{% url 'main:login' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300">
+            Login
+          </a>
+          <a href="{% url 'main:register' %}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300">
+            Register
+          </a>
+        {% endif %}
+      </div>
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button class="mobile-menu-button focus:outline-none">
+          <svg class="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div class="mobile-menu hidden md:hidden bg-pink-500 text-center py-4 px-6">
+    <div class="space-y-3">
+      {% if user.is_authenticated %}
+        <span class="block text-gray-100">Welcome, <strong>{{ user.username }}</strong></span>
+        <a href="{% url 'main:logout' %}" class="block bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-full transition duration-300">
+          Logout
+        </a>
+      {% else %}
+        <a href="{% url 'main:login' %}" class="block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-full transition duration-300">
+          Login
+        </a>
+        <a href="{% url 'main:register' %}" class="block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-full transition duration-300">
+          Register
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    const btn = document.querySelector("button.mobile-menu-button");
+    const menu = document.querySelector(".mobile-menu");
+
+    btn.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+  </script>
+</nav>
+```
+lalu saya menambahkan navigation bar ini pada file tampilan page lainnya seperti `main.html`,`create_product_entry.html`, dan `edit_product.html` menggunakan tags `include`. Pada struktur kode HTML tersebut sudah dipastikan Navigation Bar responsive dengan class `md:hidden` yang memastikan tombol hanya muncul di tampilan mobile
+> Tampilan Navigation Bar Responsive
+![image](https://github.com/user-attachments/assets/4548cf85-ade4-49e4-8b90-8654e672d965)
+![image](https://github.com/user-attachments/assets/1636c66f-2c36-45bf-ab03-13686fb959fd)
