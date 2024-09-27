@@ -452,3 +452,86 @@ Responsive design adalah pendekatan dalam pengembangan web yang bertujuan untuk 
     grid-template-columns: repeat(3, 1fr); /* Membagi grid menjadi 3 kolom */
 }
 ```
+## Implementasi Fungsi Delete dan Edit Product
+Pada file `views.py` membuat fungsi baru `edit_product()` dengan parameter `request` dan `id` lalu menambahkan import
+``` python
+from django.shortcuts import .., reverse
+from django.http import .., HttpResponseRedirect
+
+...
+def edit_product(request, id):
+    product = Product.objects.get(pk = id)
+    form = ProductEntryForm(request.POST or None, instance=product) #hmmmm
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+```
+Lalu membuat file HTML `edit_product.html` untuk tampilan pada page edit product
+```HTML
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h1>Edit Mood</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Edit Mood"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+{% endblock %}
+```
+Tak lupa untuk mengimport fungsi yang baru dibuat dan menambahkan path URL pada file `urls.py`. Setelah itu, pada file `main.html` menambahkan kode berikut agar menampilkan tombol edit
+``` HTML
+...
+<tr>
+    ...
+    <td>
+        <a href="{% url 'main:edit_product' product_entry.pk %}">
+            <button>
+                Edit
+            </button>
+        </a>
+    </td>
+</tr>
+...
+```
+Selanjutnya, untuk menambahkan fitur hapus product, saya melakukan hal yang kurang lebih sama seperti pada edit product. Pertama, saya membuat fungsi `delete_product()` dengan parameter `request` dan `id` 
+``` python
+def delete_product(request, id):
+    product = Product.objects.get(pk = id)
+    product.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
+```
+Tidak lupa untuk mengimport fungsi tersebut dan menambahkan path URL pada file `urls.py`. Setelah itu, pada file `main.html` menambahkan kode berikut agar menampilkan tombol hapus
+``` HTML
+...
+<tr>
+    ...
+    <td>
+        <a href="{% url 'main:delete_product' product_entry.pk %}">
+            <button>
+                Delete
+            </button>
+        </a>
+    </td>
+</tr>
+...
+```
+## Kustomisasi Halaman Login, Register, dan Tambah Product
+### Login
