@@ -1,5 +1,6 @@
 Link PWS: [http://naya-kusumahayati-skivy.pbp.cs.ui.ac.id/](http://naya-kusumahayati-skivy.pbp.cs.ui.ac.id/)
 
+# Tugas 2
 ## Membuat Proyek Django Baru
 Untuk memulai proyek Django baru, langkah pertama adalah membuka command prompt dan menavigasi ke direktori di mana saya ingin membuat proyek tersebut. Setelah berada di direktori yang diinginkan, saya membuat proyek baru dengan menjalankan perintah `django-admin startproject skivy`. Perintah ini akan membuat sebuah direktori baru dengan nama `skivy`, yang berisi struktur dasar proyek Django termasuk pengaturan utama, konfigurasi URL, dan skrip manajemen proyek. 
 
@@ -161,6 +162,7 @@ Untuk mengatur routing di aplikasi Django, Saya membuat file `urls.py` di dalam 
 1. Karena fungsinya untuk memetakan objek di aplikasi ke tabel dalam database.
 2. Dalam Django, setiap model Python merepresentasikan tabel di database dan tiap atribut dalam model merepresentasikan kolom di tabel.
 
+# Tugas 3
 ## Membuat Input Form Untuk Menambahkan Objek Model
 Pertama, saya membuat input form untuk menambahkan objek ke dalam database. Saya memastikan model yang akan digunakan sudah tersedia di file `models.py`. Setelah model siap, saya membuat form di `forms.py` menggunakan Django ModelForm yang secara otomatis menghubungkan form dengan model yang ada. Selanjutnya di file `views.py` saya membuat fungsi untuk menangani form ini, fungsi berfungsi untuk memeriksa apakah request adalah POST (untuk menyimpan data) atau GET (untuk menampilkan form). Jika form valid, objek baru akan disimpan ke database. Setelah itu menambahkan berkas HTML baru dengan nama `create_product_entry` dan menambahkan token CSRF yang berfungsi sebagai perlindungan form dari serangan keamanan.
 
@@ -171,8 +173,6 @@ Setelah berhasil membuat input form dan menambahkan objek ke dalam database, tah
 Setelah menambahkan fungsi views untuk menampilkan data dalam format XML dan JSON, baik untuk semua objek maupun berdasarkan ID, langkah selanjutnya adalah menambahkan routing URL di file `urls.py`. 
 
 ```python
-
-
 urlpatterns = [
     path('xml/', show_xml, name='show_xml'),
     path('json/', show_json, name='show_json'), 
@@ -180,7 +180,6 @@ urlpatterns = [
     path('json/<str:id>/', show_json_by_id, name='show_json_by_id'),
 ]
 ```
-
 Penjelasan:
 - **`path('xml/', show_xml, name='show_xml')`**: Mengarahkan URL `xml/` ke view `show_xml` yang menampilkan semua objek dalam format XML.
 - **`path('json/', show_json, name='show_json')`**: Mengarahkan URL `json/` ke view `show_json` yang menampilkan semua objek dalam format JSON.
@@ -211,6 +210,7 @@ CSRF (Cross-Site Request Forgery) adalah jenis serangan di mana penyerang mencob
 ### JSON by ID
 ![image](https://github.com/user-attachments/assets/7f843c3c-d901-4cc0-9869-35f27946536c)
 
+# Tugas 4
 ## Perbedaan antara `HttpResponseRedirect()` dan `redirect()`
 `HttpResponseRedirect()` : Fungsi bawaan Django yang memberitahu browser untuk melakukan redirect ke URL yang diberikan
 `redirect()` : Shortcut yang lebih ringkas dan fleksibel. Selain URL, fungsi ini juga dapat menerima nama URL pattern atau model object
@@ -376,6 +376,8 @@ Selanjutnya menambahkan kode HTML untuk menampilkan keterangan terakhir login mi
 <h5>Sesi terakhir login: {{ last_login }}</h5>
 ...
 ```
+
+# Tugas 5
 ## Urutan Prioritas CSS Selector
 1. **Inline Styles:** Gaya yang diterapkan langsung pada elemen HTML dengan atribut `style`
 ``` HTML
@@ -645,3 +647,20 @@ lalu saya menambahkan navigation bar ini pada file tampilan page lainnya seperti
 > Tampilan Navigation Bar Responsive
 ![image](https://github.com/user-attachments/assets/4548cf85-ade4-49e4-8b90-8654e672d965)
 ![image](https://github.com/user-attachments/assets/1636c66f-2c36-45bf-ab03-13686fb959fd)
+
+# Tugas 6
+## Manfaat Penggunaan JavaScript dalam Pengembangan Aplikasi Web
+1. **Responsif**: Menggunakan JavaScript memungkinkan aplikasi web menjadi lebih responsif terhadap input pengguna, memberikan pengalama yang lebih baik karena adanya interaksi secara real-time
+2. **Interaktif & Dinamis**: JavaScript memungkinkan pengembangan interface yang interaktif dan dinamis. Dengan JavaScript, pengguna dapat berinteraksi dengan halaman web tanpa harus memuat ulang seluruh halaman
+3. **AJAX**: JavaScript memungkinkan penggunaan AJAX, yang memungkinkan web melakukan request ke server tanpa harus memuat ulang halaman, dapat mempercepat dan meningkatkan performa aplikasi
+4. **Single Page Application**: Dengan JavaScript, pengembang dapat membuat aplikasi Single Page Application dimana pengguna bisa berinteraksi dengan satu halaman tanpa harus berpindah-pindah halaman
+5. **Ekosistem yang Kuat**: Ekosistem JavaScript besar dan dididukung oleh library dan framework yang dapat mempercepat pengembangan aplikasi
+
+## Fungsi `await` ketika Menggunakan `fetch()` dan Yang Terjadi Jika Tidak Digunakan
+`await` digunakan untuk menunggu hasil dari Promise, seperti dari `fetch()` yang sifatnya asinkron. Ketika kita menggunakan `await()` di depan `fetch()`, eksekusi kode akan menunggu hingga data dari server dikembalikan sebelum melanjutkan ke instruksi berikutnya. Jika tidak menggunakan `await` maka `fetch()` akan tetap berjalan namun kode berikutnya dieksekusi sebelum hasil dari `fetch()` tersedia. Hal ini dapat menyebabkan error ketika mencoba mengakses data yang belum tersedia
+
+## Mengapa Menggunakan Decorator `csrf_exempt` untuk AJAX POST
+Decorator `csrf_exempt` digunakan untuk menonaktifkan pemeriksaan CSRF di Django pada view tertentu. Hal tersebut diperlukan karena secara default, Django memerlukan token CSRF untuk semua request POST sebagai langkah kemananan. Ketika kita mengirimkan request POST menggunakan AJAX, mungkin tidak ada token CSRF yang disertakan sehingga request tersebut akan ditolak. Dengan `csrf_exempt`, kita mengizinkan request AJAX tersebut tanpa token CSRF
+
+## Mengapa Pembersihan Data Input Pengguna Dilakukan di Backend?
+Pembersihan data di Backend diperlukan untuk keamanan dan keandalan aplikasi. Data yang diterima oleh server bisa dimanipulasi oleh pengguna yang tidak bertanggung jawab, baik melalui bypass pada validasi frontend atau dengan mengirimkan request manual melalui tools seperti Postman atau curl. Validasi di backend memastikan bahwa data yang masuk aman dan sesuai. Alasan lainnya ialah Frontend hanya berjalan di sisi pengguna dan bisa dihindari atau diubah oleh pengguna. Jika validasi hanya dilakukan di frontend, data berbahaya masih bisa mencapai server lalu terkadang, pembersihan atau validasi data memerlukan interaksi dengan database atau aturan bisnis yang lebih kompleks, yang lebih baik dilakukan di backend.
