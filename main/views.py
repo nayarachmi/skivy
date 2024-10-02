@@ -14,6 +14,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.utils.html import strip_tags
 
 @login_required(login_url='/login')
 def show_main(request):
@@ -120,10 +121,10 @@ def delete_product(request, id):
 @csrf_exempt
 @require_POST
 def add_product_entry_ajax(request):
-    name = request.POST.get("name")
-    description = request.POST.get("description")
+    name = strip_tags(request.POST.get("name"))
+    description = strip_tags(request.POST.get("description"))
     price = request.POST.get("price")
-    skin_type = request.POST.get("skin_type")
+    skin_type = strip_tags(request.POST.get("skin_type"))
     user = request.user
 
     new_product = Product (
