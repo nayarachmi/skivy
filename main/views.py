@@ -7,22 +7,21 @@ from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 @login_required(login_url='/login')
 def show_main(request):
-    product_entries = Product.objects.filter(user=request.user)
     context = {
         'npm': '2306230685',
         'name': request.user.username,
         'class': 'PBP B',
         'store_name': 'Skivy',
-        'product_entries': product_entries,
         'last_login': request.COOKIES['last_login'],
     }
 
@@ -42,17 +41,17 @@ def create_product_entry(request):
         product_entry = form.save(commit=False)
         product_entry.user = request.user
         product_entry.save()
-        return redirect('main:show_main')
-    
+        return redirect ('main:show_main')
+        
     context = {'form': form}
     return render(request, "create_product_entry.html", context)
 
 def show_xml(request):
-    data = Product.objects.all()
+    data = Product.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
 def show_json(request):
-    data = Product.objects.all()
+    data = Product.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def show_xml_by_id(request, id):
@@ -117,3 +116,21 @@ def delete_product(request, id):
     product.delete()
     # Kembali ke halaman awal
     return HttpResponseRedirect(reverse('main:show_main'))
+
+@csrf_exempt
+@require_POST
+def add_product_entry_ajax(request):
+    name = request.POST.get("name")
+    description = request.POST.get("description")
+    price = request.POST.get("price")
+    skin_type = request.POST.get("skin_type")
+    user = request.user
+
+    new_product = Product (
+        name=name, description=description,
+        price=price, skin_type=skin_type,
+        user=user
+    )
+    new_product.save()
+
+    return HttpResponse(b"CREATED", status=201)
