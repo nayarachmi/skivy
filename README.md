@@ -481,7 +481,7 @@ Lalu membuat file HTML `edit_product.html` untuk tampilan pada page edit product
 
 {% block content %}
 
-<h1>Edit Mood</h1>
+<h1>Edit Product</h1>
 
 <form method="POST">
     {% csrf_token %}
@@ -490,7 +490,7 @@ Lalu membuat file HTML `edit_product.html` untuk tampilan pada page edit product
         <tr>
             <td></td>
             <td>
-                <input type="submit" value="Edit Mood"/>
+                <input type="submit" value="Edit Product"/>
             </td>
         </tr>
     </table>
@@ -649,6 +649,15 @@ lalu saya menambahkan navigation bar ini pada file tampilan page lainnya seperti
 ![image](https://github.com/user-attachments/assets/1636c66f-2c36-45bf-ab03-13686fb959fd)
 
 # Tugas 6
+## Mengubah Kode `cards` Agar Data Product Dapat Mendukung AJAX GET
+## Mengambil Data Product Menggunakan AJAX GET dan Memastikan Data yang Diambil Milik Pengguna yang *Logged-In*
+## Membuat Tombol yang Membuka Sebuah Modal dengan Form Untuk Menambahkan Product
+## Membuat Fungsi *view* Baru Untuk Menambahkan Product Baru ke Dalam Basis Data
+## Membuat Path `/creat-ajax/` yang Mengarah ke Fungsi *view* 
+## Menghubungkan Form yang Sudah di Buat Dalam Modal ke Path `/creat-ajax/`
+## Refresh Halaman Utama Secara Asinkronus
+
+
 ## Manfaat Penggunaan JavaScript dalam Pengembangan Aplikasi Web
 1. **Responsif**: Menggunakan JavaScript memungkinkan aplikasi web menjadi lebih responsif terhadap input pengguna, memberikan pengalama yang lebih baik karena adanya interaksi secara real-time
 2. **Interaktif & Dinamis**: JavaScript memungkinkan pengembangan interface yang interaktif dan dinamis. Dengan JavaScript, pengguna dapat berinteraksi dengan halaman web tanpa harus memuat ulang seluruh halaman
