@@ -87,8 +87,6 @@
 </div>
 
 
-
-
 </div>
 
 <script>
@@ -177,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const formData = new FormData(form);
     
     try {
-      const response = await fetch("{% url 'main:create_product_entry' %}", {
+      const response = await fetch("{% url 'main:add_product_entry_ajax' %}", {
         method: 'POST',
         body: formData,
         headers: {

@@ -23,7 +23,7 @@ def show_main(request):
         'name': request.user.username,
         'class': 'PBP B',
         'store_name': 'Skivy',
-        'last_login': request.COOKIES['last_login'],
+        'last_login': request.COOKIES.get('last_login', 'Never logged in'),
     }
 
     return render(request, "main.html", context)
